@@ -1,8 +1,14 @@
 #!/bin/bash
 
-exp_root_dir=../log/imprinting/n-shots_01
-keys='test_top1,rec_pc,base_rec,novel_rec'
+for n_shots in 1 2 5 10 20; do
 
-python ../src/combine_results.py \
-	--exp_root_dir=$exp_root_dir \
-	--keys=$keys
+	exp_root_dir=$EXPERIMENTS_HOME/fsl-imprinted-weights/alljoint/n-shots_$(printf "%02d" $n_shots)
+	keys='train_top1,test_top1,best_top1,avg_recall,base_recall,novel_recall'
+
+	echo ""
+	echo ""
+	python ../src/combine_results.py \
+		--exp_root_dir=$exp_root_dir \
+		--keys=$keys
+
+done

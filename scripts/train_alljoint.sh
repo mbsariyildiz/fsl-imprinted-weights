@@ -7,13 +7,13 @@ lr=0.001
 lr_decay=0.94
 lr_decay_steps=4
 seeds=(11 22 33 44 55)
-n_shotss=(1 2 5)
+n_shotss=(10 20)
 
-exp_root=$EXPERIMENTS_HOME/fsl-imprinted-weights/alljoint
+exp_root=$EXPERIMENTS_HOME/fsl-imprinted-weights/log/alljoint
 data_dir=../data/CUB_200_2011
 
 for n_shots in "${n_shotss[@]}"; do
-	for exp_iter in `seq 1 1 5`; do
+	for exp_iter in `seq 1 1 3`; do
 		exp_name=$(printf "n-shots_%02d/%02d" $n_shots $exp_iter)
 		seed=${seeds[$((exp_iter-1))]}
 

@@ -20,7 +20,7 @@ parser.add_argument('--device', default='cuda', choices=['cuda', 'cpu'],
                     help='')
 parser.add_argument('--n_workers', default=4, type=int,
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--n_data_augments', default=200, type=int,
+parser.add_argument('--n_data_augments', default=10, type=int,
                     help='number of times that a sample is augmented')
 parser.add_argument('--batch_size', default=64, type=int,
                     help='mini-batch size (default: 64)')
@@ -87,10 +87,11 @@ def main():
     rec_pc = (np.diag(ret[2]) / np.sum(ret[2], axis=1)) * 100
     base_rec = rec_pc[:100].mean()
     novel_rec = rec_pc[100:].mean()
+    avg_rec = rec_pc.mean()
 
     np.savetxt(os.path.join(args.exp_dir, 'confmat.txt'), ret[2], fmt='%02d')
     np.savez(os.path.join(args.exp_dir, 'logs.npz'), 
-        test_top1=ret[1], test_confmat=ret[2], rec_pc=rec_pc, base_rec=base_rec, novel_rec=novel_rec)
+        test_top1=ret[1], test_confmat=ret[2], rec_pc=rec_pc, base_rec=base_rec, novel_rec=novel_rec, avg_rec=avg_rec)
 
 if __name__ == '__main__':
     main()

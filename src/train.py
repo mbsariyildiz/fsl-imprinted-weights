@@ -23,7 +23,7 @@ parser.add_argument('--device', default='cuda', choices=['cuda', 'cpu'],
                     help='')
 parser.add_argument('--n_workers', default=4, type=int,
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--n_epochs', default=200, type=int,
+parser.add_argument('--n_epochs', default=100, type=int,
                     help='number of total epochs to run')
 parser.add_argument('--batch_size', default=64, type=int,
                     help='mini-batch size (default: 64)')
@@ -139,6 +139,16 @@ def main():
              avg_recall, base_recall, novel_recall,
              train_time, test_time],
             epoch)
+
+        utils.save_checkpoint(
+            {
+                'model': model.state_dict(),
+                'epoch': epoch,
+                'best_top1': best_top1,
+                'test_top1': test_top1
+            },
+            args.exp_dir,
+            is_best)
 
     logger.close()
 

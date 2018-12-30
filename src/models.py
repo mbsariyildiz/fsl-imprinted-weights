@@ -14,7 +14,8 @@ class Net(nn.Module):
 
         self.extractor = Extractor()
         self.embedding = Embedding(d_emb, normalize)
-        self.classifier = Classifier(n_classes, d_emb, normalize)
+        if n_classes > 0:
+            self.classifier = Classifier(n_classes, d_emb, normalize)
         if scale:
             self.s = nn.Parameter(torch.FloatTensor([10]))
 
@@ -81,8 +82,8 @@ class Classifier(nn.Module):
     def forward(self, x):
         if self.normalize:
             w = self.fc.weight
-            w_normed = F.normalize(w, dim=1, p=2)
-            x = x.mm(w_normed.t())
+            w = F.normalize(w, dim=1, p=2)
+            x = F.linear(x, w)
         else: 
             x = self.fc(x)
         return x

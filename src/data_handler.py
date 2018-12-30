@@ -32,10 +32,10 @@ class CUBHelper(object):
         attributes = []
         atts_file = join(self.data_dir, 'attributes',  'class_attribute_labels_continuous.txt')
         with open(atts_file, 'r') as fid_atts:
-              for line in fid_atts:
-                    atts = line.strip().split()
-                    atts = list(map(float, atts))
-                    attributes.append(atts)
+            for line in fid_atts:
+                atts = line.strip().split()
+                atts = list(map(float, atts))
+                attributes.append(atts)
         self.attributes = np.asarray(attributes).astype(np.float32) / 100.
         assert np.all(np.isfinite(self.attributes))
         if self.normalize_atts:

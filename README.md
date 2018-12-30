@@ -1,4 +1,5 @@
-Pytorch implementation of [Low-Shot Learning with Imprinted Weights](http://openaccess.thecvf.com/content_cvpr_2018/papers/Qi_Low-Shot_Learning_With_CVPR_2018_paper.pdf). 
+Pytorch implementation of 
+[Low-Shot Learning with Imprinted Weights](http://openaccess.thecvf.com/content_cvpr_2018/papers/Qi_Low-Shot_Learning_With_CVPR_2018_paper.pdf). 
 
 I started this repository as the clone of [this repository](https://github.com/YU1ut/imprinted-weights). But then I realized that
 I had changed almost everything, therefore decided to make a separate repo on it's own. But still there may be some intact code snippets, for
@@ -55,6 +56,7 @@ Please see the followings for how scores are computed.
 |**Rand + FT**|**3.8** |**11.6** |**32.9** |**51.7** |**66.8** |
 |**Imprinting + Aug + FT** |**19.3** |**31.4** |**50.4** |**61.7** |**66.9** |
 |**AllClassJoint** |**5.6** |**16.0** |**41.5** |**59.6** |**71.7** |
+|**AllClassJoint** - ***Cosine Similarity*** |**6.6** |**19.5** |**47.8** |**65.6** |**76.7** |
 
 ### Average per-class recalls of all classes in CUB-200-2011
 #### w/o FT
@@ -75,3 +77,4 @@ Please see the followings for how scores are computed.
 |**Rand + FT**|**42.4** |**45.9** |**56.2** |**65.1** |**72.5** |
 |**Imprinting + Aug + FT** |**50.3** |**56.0** |**65.1** |**70.6** |**72.6** |
 |**AllClassJoint** |**42.1** |**46.9** |**59.9** |**68.8** |**74.4** |
+|**AllClassJoint** - ***Cosine Similarity*** |**44.3** |**50.6** |**64.5** |**73.7** |**78.6** |

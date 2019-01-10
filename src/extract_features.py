@@ -17,8 +17,10 @@ parser.add_argument('--data_dir', default='../data/CUB_200_2011',
                     help='path to dataset')
 parser.add_argument('--exp_dir', default='../log/base_pretrained', type=str,
                     help='experiment directory (default: ../log/base_pretrained')
-parser.add_argument('--fts_save_path', default='../data/base_pretrained_features',
+parser.add_argument('--fts_save_path', default='',
                     help='path to save extracted features.')
+parser.add_argument('--ws_save_path', default='',
+                    help='path to save the FC layer of the classification model')
 parser.add_argument('--device', default='cuda', choices=['cuda', 'cpu'],
                     help='')
 parser.add_argument('--n_workers', default=4, type=int,
@@ -40,14 +42,19 @@ args = parser.parse_args()
 
 def main():
 
+    # Load checkpoint file of the model
+    model_ckpt_path = os.path.join(args.exp_dir, 'model.ckpt')
+    ckpt = utils.load_ckpt(model_ckpt_path, args.device)
+    print ('Saving W at {} ...'.format(args.ws_save_path))
+    np.savez(args.ws_save_path,
+             W=ckpt['model']['classifier.fc.weight'].cpu().detach().numpy())
+
     # initialize the pretrained model
     model = models.Net(
         n_classes=0,
         d_emb=args.d_emb,
         normalize=args.cosine_sim,
         scale=False).to(args.device)
-    model_ckpt_path = os.path.join(args.exp_dir, 'model.ckpt')
-    ckpt = utils.load_ckpt(model_ckpt_path, args.device)
     utils.load_ckpt2module(ckpt, model, 'model')
 
     print ('Loading dataset for n-shots:{} with seed:{} ...'.format(args.n_shots, args.seed))

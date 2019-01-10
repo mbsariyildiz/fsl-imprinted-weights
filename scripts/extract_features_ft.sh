@@ -5,19 +5,18 @@ device='cuda'
 n_shotss=(1 2 5 10 20)
 seeds=(11 22 33 44 55)
 
-exp_dir=$EXPERIMENTS_HOME/fsl-imprinted-weights/base_classifier
+exp_root=$EXPERIMENTS_HOME/fsl-imprinted-weights/base_classifier
 data_dir=../data/CUB_200_2011
 
 for n_shots in "${n_shotss[@]}"; do
 	for exp_iter in `seq 1 1 5`; do
 
+		exp_name=$(printf "n-shots_%02d/%02d" $n_shots $exp_iter)
 		seed=${seeds[$((exp_iter-1))]}
 
-		fts_save_path=$exp_dir/features/$(printf "features_aug-%02d_n-%02d_%02d" $n_data_augments $n_shots $exp_iter)
-		ws_save_path=$exp_dir/weights/$(printf "weights_n-%02d_%02d" $n_shots $exp_iter)
-
-		mkdir -p $exp_dir/features
-		mkdir -p $exp_dir/weights
+		exp_dir=$exp_root/$exp_name
+		fts_save_path=$exp_root/$(printf "features_aug-%02d_n-%02d_%02d" $n_data_augments $n_shots $exp_iter)
+		ws_save_path=$exp_root/$(printf "weights_n-%02d_%02d" $n_shots $exp_iter)
 
 		echo ""
 		echo "**************************************************"

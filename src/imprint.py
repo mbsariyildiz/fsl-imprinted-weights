@@ -82,16 +82,21 @@ def main():
         n_workers=args.n_workers)
 
     criterion = torch.nn.CrossEntropyLoss().to(args.device)
-    ret = utils.evaluate(model, test_loader, criterion, args.device)
+    _, _, test_confmat, _ = utils.evaluate(model, test_loader, criterion, args.device)
 
-    rec_pc = (np.diag(ret[2]) / np.sum(ret[2], axis=1)) * 100
-    base_rec = rec_pc[:100].mean()
-    novel_rec = rec_pc[100:].mean()
-    avg_rec = rec_pc.mean()
+    per_class_recall = (np.diag(test_confmat) / np.sum(test_confmat, axis=1)) * 100.
+    base_recall = per_class_recall[:100].mean()
+    novel_recall = per_class_recall[100:].mean()
+    avg_recall = per_class_recall.mean()
 
-    np.savetxt(os.path.join(args.exp_dir, 'confmat.txt'), ret[2], fmt='%02d')
+    np.savetxt(os.path.join(args.exp_dir, 'test_confmat.txt'), test_confmat, fmt='%02d')
+
     np.savez(os.path.join(args.exp_dir, 'logs.npz'), 
-        test_top1=ret[1], test_confmat=ret[2], rec_pc=rec_pc, base_rec=base_rec, novel_rec=novel_rec, avg_rec=avg_rec)
+        test_confmat=test_confmat,
+        per_class_recall=per_class_recall,
+        base_recall=base_recall,
+        novel_recall=novel_recall,
+        avg_recall=avg_recall)
 
 if __name__ == '__main__':
     main()

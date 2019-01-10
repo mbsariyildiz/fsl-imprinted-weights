@@ -95,7 +95,7 @@ def main():
     train_loader, test_loader = data_handler.get_cubloaders(
         args.data_dir,
         n_shots=args.n_shots, 
-        seed=args.seed, 
+        seed=args.seed,
         novel_only=False,
         uniform_sampling=args.n_shots>0,
         batch_size=args.batch_size,
@@ -105,7 +105,7 @@ def main():
     criterion = torch.nn.CrossEntropyLoss().to(args.device)
     optimizer = torch.optim.SGD(
         model.parameters(),
-        lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
+        lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay )
 
     opt_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, gamma=args.lr_decay, step_size=args.lr_decay_steps)
 
@@ -141,7 +141,6 @@ def main():
         avg_recall = pc_rec.mean() * 100.
 
         # remember best prec@1 and save checkpoint
-        is_best = test_top1 > best_top1
         best_top1 = max(test_top1, best_top1)
 
         ## append logger file
@@ -152,9 +151,19 @@ def main():
              train_time, test_time],
             epoch)
 
-        np.savez(os.path.join(args.exp_dir, 'confmat.npz'), confmat=confmat)
+    utils.save_checkpoint(
+        {
+            'model': model.state_dict(),
+            'epoch': epoch,
+            'best_top1': best_top1,
+            'test_top1': test_top1
+        },
+        args.exp_dir)
+
+    np.savez(os.path.join(args.exp_dir, 'confmat.npz'), confmat=confmat)
 
     logger.close()
+    print ('')
 
 if __name__ == '__main__':
     main()

@@ -8,6 +8,7 @@ parser.add_argument('--exp_root_dir', type=str,
                     help='directory which includes all experiment folders')
 parser.add_argument('--keys', type=str, default='',
                     help='comma separated names of the attributes saved in log file')
+parser.add_argument('--verbose', action='store_true')
 args = parser.parse_args()
 
 def main():
@@ -36,8 +37,12 @@ def main():
                 v = v.reshape([-1, 1])
             combined_logs[k].append(v)
 
+    if args.verbose:
+        print ('Combined results:')
     for k in keys:
         combined_logs[k] = np.concatenate(combined_logs[k], axis=1).mean(axis=1)
+        if args.verbose:
+            print ('\t{}[-1]: {}'.format(k, combined_logs[k][-1]))
 
     np.savez(
         os.path.join(args.exp_root_dir, 'combined_logs.npz'),

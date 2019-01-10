@@ -123,10 +123,10 @@ def main():
         # evaluate on test set
         test_loss, test_top1, confmat, test_time = utils.evaluate(model, test_loader, criterion, args.device)
 
-        pc_rec = np.diag(confmat) / np.sum(confmat, axis=1)
-        base_recall = pc_rec[:100].mean() * 100.
-        novel_recall = pc_rec[100:].mean() * 100.
-        avg_recall = pc_rec.mean() * 100.
+        pc_rec = (np.diag(confmat) / np.sum(confmat, axis=1)) * 100.
+        base_recall = pc_rec[:100].mean()
+        novel_recall = pc_rec[100:].mean()
+        avg_recall = pc_rec.mean()
 
         # remember best prec@1 and save checkpoint
         is_best = test_top1 > best_top1
@@ -134,7 +134,7 @@ def main():
 
         # append logger file
         logger.append(
-            [lr, train_loss, test_loss, 
+            [lr, train_loss, test_loss,
              train_top1, test_top1, best_top1, 
              avg_recall, base_recall, novel_recall,
              train_time, test_time],

@@ -16,7 +16,7 @@ Perhaps, this is yet another case where SGD with momentum is superior than RMSPr
 - cuda 9.0
 - conda 4.5.11
 - python 3.6.4
-- pytorch 0.4.1
+- pytorch 1.0.0
 - torchvision 0.2.1
 - sklearn 0.19.1
 - matplotlib 3.0.1
@@ -34,7 +34,7 @@ Please see the scripts to understand how things work.
 ## Results
 Please see the followings for how scores are computed.
 - Each n shot setting is performed 5 times such that a different seed is used before sampling of n samples from novel classes.
-- In each imprinting experiment, a sample from a novel class is augmented 10 times.
+- In each imprinting experiment, a sample from a novel class is augmented 5 times.
 - For each score, confusion matrix is computed and then per-class recall scores are averaged accordingly.
 
 ### Average per-class recalls of novel classes in CUB-200-2011
@@ -45,7 +45,7 @@ Please see the followings for how scores are computed.
 |Imprinting (paper)|21.26 |28.69 |39.52 |45.77 |49.32|
 |Imprinting + Aug (paper) |21.40 |30.03 |39.35 |46.35 |49.80|
 |**Rand-noFT**|**0.00** |**0.00** |**0.00** |**0.00** |**0.01** |
-|**Imprinting + Aug** |**20.6** |**28.2** |**39.5** |**46.8** |**50.6**|
+|**Imprinting + Aug** |**20.2** |**27.9** |**38.9** |**46.3** |**50.4**|
 
 #### w/ FT
 | n = | 1| 2 | 5| 10| 20|
@@ -66,7 +66,7 @@ Please see the followings for how scores are computed.
 |Imprinting (paper)|44.75| 48.21| 52.95| 55.99 |57.47|
 |Imprinting + Aug (paper) |44.60| 48.48| 52.78 |56.51| 57.84|
 |**Rand-noFT**|**41.2** |**41.2** |**41.2** |**41.2** |**41.2** |
-|**Imprinting + Aug** |**50.6** |**54.2** |**59.6** |**63.0** |**64.9**|
+|**Imprinting + Aug** |**50.4** |**54.1** |**59.2** |**62.8** |**64.8**|
 
 #### w/ FT
 | n = | 1| 2 | 5| 10| 20|
